@@ -55,14 +55,19 @@ function buildCalendarMonth(element, year, month) {
 	const daysInMonth = getDaysInMonth(year, month);
 	for (let i = 1; i <= daysInMonth; i++) {
 		const li = document.createElement("li");
-		li.innerHTML = i;
+
 		li.classList.add("day");
 		li.dataset.clickCount = 0;
 		li.addEventListener("click", clickDay, false);
 
-		const span = document.createElement("span");
-		span.classList.add("counter");
-		li.appendChild(span);
+		const value = document.createElement("span");
+		value.classList.add("value");
+		value.innerHTML = i;
+		li.appendChild(value);
+
+		const counter = document.createElement("span");
+		counter.classList.add("counter");
+		li.appendChild(counter);
 
 		element.appendChild(li);
 	}
@@ -108,6 +113,47 @@ function clickDay() {
 		this.classList.remove("clicked");
 		counter.style.display = "none";
 	}
+
+	buildClickedDaysArray();
+}
+
+function firstParent(node, definedParent) {
+	let finalParent = document.body;
+
+	if (definedParent !== undefined) {
+		finalParent = document.querySelector(definedParent);
+	}
+
+	if (node.parentElement === finalParent) {
+		return node;
+	} else {
+		return firstParent(node.parentElement, definedParent);
+	}
+}
+
+function buildClickedDaysArray() {
+	const clickedDays = document.querySelectorAll(".clicked");
+	const textarea = document.querySelector("textarea");
+
+	let daySelections = [];
+
+	clickedDays.forEach(function(day) {
+		const dayValue = day.querySelector(".value").textContent;
+		const titleValue = firstParent(day, ".calendar").querySelector("h2").textContent;
+
+		for (let i = 0; i < day.dataset.clickCount; i++) {
+			daySelections.push([dayValue + " " + titleValue]);
+		}
+	});
+
+	let csvContent = "";
+
+	daySelections.forEach(function (rowArray) {
+		let row = rowArray.join(",");
+		csvContent += row + "\r\n";
+	});
+
+	textarea.value = csvContent;
 }
 
 initialiseCalendar(currentYear);
