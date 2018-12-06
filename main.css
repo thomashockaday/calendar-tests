@@ -24,23 +24,31 @@
 	width: 100%;
 }
 
-.calendar ul li {
-	list-style: none;
-	width: 43px;
-	height: 43px;
-	background: #eee;
-	border: 1px solid #fff;
-	cursor: default;
-}
-
-.calendar main ul li:not(.empty):hover {
-	background: #aaccee;
-}
-
 .calendar section header ul li {
 	background: #ddd;
 }
 
-.calendar ul li.empty {
+.calendar ul li {
+	list-style: none;
+	width: 43px;
+	border: 1px solid #fff;
+	cursor: default;
+}
+
+.day {
+	background: #eee;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.day:hover {
+	background: #aaccee;
+}
+
+.empty {
 	background: #fff;
 }

@@ -56,6 +56,7 @@ function buildCalendarMonth(element, year, month) {
 	for (let i = 1; i <= daysInMonth; i++) {
 		const li = document.createElement("li");
 		li.innerHTML = i;
+		li.classList.add("day");
 		li.dataset.clickCount = 0;
 		li.addEventListener("click", clickDay, false);
 		element.appendChild(li);
