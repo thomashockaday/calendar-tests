@@ -59,6 +59,11 @@ function buildCalendarMonth(element, year, month) {
 		li.classList.add("day");
 		li.dataset.clickCount = 0;
 		li.addEventListener("click", clickDay, false);
+
+		const span = document.createElement("span");
+		span.classList.add("counter");
+		li.appendChild(span);
+
 		element.appendChild(li);
 	}
 
@@ -89,8 +94,20 @@ function createEmptyCells(element, amount) {
 }
 
 function clickDay() {
-	this.style.backgroundColor = "#99bbdd";
-	this.dataset.clickCount++;
+	let clickCount = this.dataset.clickCount;
+	const counter = this.querySelector(".counter");
+
+	clickCount++;
+	this.dataset.clickCount = clickCount;
+	counter.innerHTML = clickCount;
+
+	if (clickCount > 0) {
+		this.classList.add("clicked");
+		counter.style.display = "inline-block";
+	} else {
+		this.classList.remove("clicked");
+		counter.style.display = "none";
+	}
 }
 
 initialiseCalendar(currentYear);
