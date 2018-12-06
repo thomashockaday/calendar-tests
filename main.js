@@ -66,7 +66,7 @@ function buildCalendarMonth(element, year, month) {
 		li.appendChild(value);
 
 		const counter = document.createElement("span");
-		counter.classList.add("counter");
+		counter.classList.add(...["counter", "info"]);
 		li.appendChild(counter);
 
 		element.appendChild(li);
@@ -114,7 +114,7 @@ function clickDay() {
 		counter.style.display = "none";
 	}
 
-	buildClickedDaysArray();
+	outputContent();
 }
 
 function firstParent(node, definedParent) {
@@ -131,9 +131,25 @@ function firstParent(node, definedParent) {
 	}
 }
 
+function outputContent() {
+	const textarea = document.querySelector("textarea");
+	const downloadLink = document.querySelector("#downloadLink");
+
+	const daySelections = buildClickedDaysArray();
+	let csvContent = "";
+
+	daySelections.forEach(function (rowArray) {
+		let row = rowArray.join(",");
+		csvContent += row + "\r\n";
+	});
+
+	textarea.value = csvContent;
+
+	downloadLink.setAttribute("href", encodeURI("data:text/csv;charset=utf-8," + csvContent));
+}
+
 function buildClickedDaysArray() {
 	const clickedDays = document.querySelectorAll(".clicked");
-	const textarea = document.querySelector("textarea");
 
 	let daySelections = [];
 
@@ -146,14 +162,7 @@ function buildClickedDaysArray() {
 		}
 	});
 
-	let csvContent = "";
-
-	daySelections.forEach(function (rowArray) {
-		let row = rowArray.join(",");
-		csvContent += row + "\r\n";
-	});
-
-	textarea.value = csvContent;
+	return daySelections;
 }
 
 initialiseCalendar(currentYear);
