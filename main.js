@@ -56,6 +56,8 @@ function buildCalendarMonth(element, year, month) {
 	for (let i = 1; i <= daysInMonth; i++) {
 		const li = document.createElement("li");
 		li.innerHTML = i;
+		li.dataset.clickCount = 0;
+		li.addEventListener("click", clickDay, false);
 		element.appendChild(li);
 	}
 
@@ -83,6 +85,11 @@ function createEmptyCells(element, amount) {
 		li.classList.add("empty");
 		element.appendChild(li);
 	}
+}
+
+function clickDay() {
+	this.style.backgroundColor = "#99bbdd";
+	this.dataset.clickCount++;
 }
 
 initialiseCalendar(currentYear);
